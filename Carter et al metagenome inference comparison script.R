@@ -3774,7 +3774,7 @@ plot_pcorr_ko_legend <- ggplot() +
 
 
 ##########################################################
-### GENERATE SUPPLEMENTAL FIGURE 4 P VS P SCATTER PLOT ###
+### GENERATE SUPPLEMENTAL FIGURE 3 P VS P SCATTER PLOT ###
 ##########################################################
 
 
@@ -4461,14 +4461,14 @@ legend_meta_meta <- as_ggplot(get_legend(stacked_bar_meta_meta))
 
 
 
-# generate supplemental figure 5 patchworked plot
+# generate supplemental figure 4 patchworked plot
 (stacked_bars_patch_meta <- (dendrogram_meta | 
-                        stacked_bar_16s_case_nolegend_meta | 
-                        stacked_bar_meta_nolegend_meta | 
-                        legend_tile_meta | 
-                        legend_meta_meta | 
-                        legend_16_meta | 
-                        plot_spacer)) +
+                               stacked_bar_16s_case_nolegend_meta | 
+                               stacked_bar_meta_nolegend_meta | 
+                               legend_tile_meta | 
+                               legend_meta_meta | 
+                               legend_16_meta | 
+                               plot_spacer)) +
   plot_layout(design = c(area(1, 1, 20, 10), #dendrogram area TLBR
                          area(1, 9, 20, 58), #16S stacked bar and case status tile area
                          area(1, 58, 20, 107), #metagenome stacked bar area
@@ -4853,148 +4853,6 @@ plot_alpha_vs_meta <- ggplot(data = plot_alpha_vs, aes(x = val_16s, y = val_meta
 ### generate supplemental figure 7, patchwork
 plot_alpha_vs_16s / plot_alpha_vs_meta +
   plot_annotation(tag_level = "A") +
-  theme(plot.tag = element_text(size = 11))
-
-
-
-
-
-
-##################################################################
-### GENERATE SUPPLEMENTAL FIGURE 7 WMGS VS 16S ALPHA DIVERSITY ###
-##################################################################
-
-
-
-### using plot_alpha_vs from supplemental figure 8
-
-### generate plot colored by WMGS cluster status with no loess
-### only shape legend to pull for patchwork
-plot_alpha_vs_meta <- ggplot(data = plot_alpha_vs, aes(x = val_16s, y = val_meta)) + 
-  geom_point(aes(color = cluster_meta_f, fill = cluster_meta_f, shape = cluster_f)) + 
-  scale_color_manual(values = c("#e7298a",  "#e6ab02"),  
-                     labels = c("1", "2"), 
-                     "WMGS cluster") +
-  scale_fill_manual(values = c("#e7298a",  "#e6ab02"),  
-                    labels = c("1", "2"), 
-                    "WMGS cluster") +
-  scale_shape_manual(values = c(16, 8, 18),
-                     labels = c(expression(paste(italic("L. crispatus"), " dominated")),
-                                expression(paste(italic("L. iners"), " dominated")),
-                                "Mixed"),
-                     "16S Cluster") +
-  facet_wrap(~plot_alpha_vs$metric_16s, scales = "free") +
-  xlab("16S Alpha diversity") + 
-  ylab("WMGS Alpha diversity") + 
-  theme_light(base_size = 9) +
-  theme(axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0)),
-        legend.direction = "horizontal", legend.text.align = 0) +
-  guides(color = "none", fill = "none",
-         shape = guide_legend(title.position = "top", title.hjust = 0.5)) 
-plot_alpha_vs_meta
-
-# pull legend for patchwork
-legend_alpha_vs_meta_shape <- as_ggplot(get_legend(plot_alpha_vs_meta))
-
-
-
-### generate plot colored by 16S cluster status with no loess
-### no legend for patchwork
-plot_alpha_vs_meta_nolegend <- ggplot(data = plot_alpha_vs, aes(x = val_16s, y = val_meta)) + 
-  geom_point(aes(color = cluster_meta_f, fill = cluster_meta_f, shape = cluster_f)) + 
-  scale_color_manual(values = c("#e7298a",  "#e6ab02"),  
-                     labels = c("1", "2"), 
-                     "WMGS cluster") +
-  scale_fill_manual(values = c("#e7298a",  "#e6ab02"),  
-                    labels = c("1", "2"), 
-                    "WMGS cluster") +
-  scale_shape_manual(values = c(16, 8, 18),
-                     labels = c(expression(paste(italic("L. crispatus"), " dominated")),
-                                expression(paste(italic("L. iners"), " dominated")),
-                                "Mixed"),
-                     "16S Cluster") +
-  facet_wrap(~plot_alpha_vs$metric_16s, scales = "free") +
-  xlab("16S Alpha diversity") + 
-  ylab("WMGS Alpha diversity") + 
-  labs(tag  = "A") +
-  theme_light(base_size = 9) +
-  theme(axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0)),
-        legend.position = "none")
-plot_alpha_vs_meta_nolegend
-
-
-
-### generate plot colored by 16S cluster status with overall loess
-### no legend for patchwork
-plot_alpha_vs_meta_loess <- ggplot(data = plot_alpha_vs, aes(x = val_16s, y = val_meta)) + 
-  geom_smooth(color = "grey30") +
-  geom_point(aes(color = cluster_meta_f, fill = cluster_meta_f, shape = cluster_f)) + 
-  scale_color_manual(values = c("#e7298a",  "#e6ab02"),  
-                     labels = c("1", "2"), 
-                     "WMGS cluster") +
-  scale_fill_manual(values = c("#e7298a",  "#e6ab02"),  
-                    labels = c("1", "2"), 
-                    "WMGS cluster") +
-  scale_shape_manual(values = c(16, 8, 18),
-                     labels = c(expression(paste(italic("L. crispatus"), " dominated")),
-                                expression(paste(italic("L. iners"), " dominated")),
-                                "Mixed"),
-                     "16S Cluster") +
-  facet_wrap(~plot_alpha_vs$metric_16s, scales = "free") +
-  xlab("16S Alpha diversity") + 
-  ylab("WMGS Alpha diversity") + 
-  labs(tag  = "B") +
-  theme_light(base_size = 9) +
-  theme(axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0)),
-        legend.position = "none")
-plot_alpha_vs_meta_loess
-
-
-
-
-
-# pull legend for patchwork
-legend_alpha_vs_meta_color <- as_ggplot(get_legend(plot_alpha_vs_meta_loess_cluster))
-
-
-
-### generate plot colored by 16S cluster status with cluster-specific loess
-### only color legend to pull for patchwork
-plot_alpha_vs_meta_loess_cluster_nolegend <- ggplot(data = plot_alpha_vs, aes(x = val_16s, y = val_meta,
-                                                                              color = cluster_meta_f, fill = cluster_meta_f)) + 
-  geom_smooth() +
-  geom_point(aes(shape = cluster_f)) + 
-  scale_color_manual(values = c("#e7298a",  "#e6ab02"),  
-                     labels = c("1", "2"), 
-                     "WMGS cluster") +
-  scale_fill_manual(values = c("#e7298a",  "#e6ab02"),  
-                    labels = c("1", "2"), 
-                    "WMGS cluster") +
-  scale_shape_manual(values = c(16, 8, 18),
-                     labels = c(expression(paste(italic("L. crispatus"), " dominated")),
-                                expression(paste(italic("L. iners"), " dominated")),
-                                "Mixed"),
-                     "16S Cluster") +
-  facet_wrap(~plot_alpha_vs$metric_16s, scales = "free") +
-  facet_wrap(~plot_alpha_vs$metric_16s, scales = "free") +
-  xlab("16S Alpha diversity") + 
-  ylab("WMGS Alpha diversity") + 
-  labs(tag  = "C") +
-  theme_light(base_size = 9) +
-  theme(axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0)),
-        legend.position = "none")
-plot_alpha_vs_meta_loess_cluster_nolegend
-
-
-
-### generate supplemental figure 7, patchwork
-plot_alpha_vs_meta_nolegend / plot_alpha_vs_meta_loess / plot_alpha_vs_meta_loess_cluster_nolegend / legend_alpha_vs_meta_shape / legend_alpha_vs_meta_color +
-  guide_area() +
-  plot_layout(design = c(area(1, 1, 10, 10), 
-                         area(11, 1, 20, 10), 
-                         area(21, 1, 30, 10),
-                         area(31, 3, 33),
-                         area(31, 8, 33))) + # TLBR
   theme(plot.tag = element_text(size = 11))
 
 
